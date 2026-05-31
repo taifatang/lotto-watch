@@ -23,7 +23,7 @@ class MockNotifier:
 
 
 def fake_notifiers(notifier):
-    return SimpleNamespace(live=[notifier], dry_run=[])
+    return SimpleNamespace(live=[notifier], test=[])
 
 
 # should_notify_today — day before draw
@@ -55,7 +55,7 @@ def test_qualifying_game_sends_notification():
     with patch("main.games", [FakeGame()]), patch("main.notifiers", fake_notifiers(notifier)), \
          patch("main.should_notify_today", return_value=True):
         main()
-    assert notifier.calls == [[("FakeGame", 2_000_000.0, 1_000_000.0)]]
+    assert notifier.calls == [[("FakeGame", 2_000_000.0, 1_000_000.0, [2, 5])]]
 
 
 def test_game_below_threshold_no_notification():
@@ -98,6 +98,6 @@ def test_multiple_qualifying_games_batched():
         main()
 
     assert notifier.calls == [[
-        ("GameA", 2_000_000.0, 1_000_000.0),
-        ("GameB", 2_000_000.0, 1_000_000.0),
+        ("GameA", 2_000_000.0, 1_000_000.0, [2, 5]),
+        ("GameB", 2_000_000.0, 1_000_000.0, [2, 5]),
     ]]
