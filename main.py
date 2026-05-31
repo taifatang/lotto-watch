@@ -35,7 +35,10 @@ def main(test=False):
             continue
         jackpot = game.fetch_jackpot()
         if jackpot is not None and jackpot >= game.prize_threshold:
-            high_prized_games.append((game.name, jackpot, game.prize_threshold))
+            notify_days = ", ".join(
+                Weekday((d - 1) % 7).name.capitalize() for d in game.draw_days
+            )
+            high_prized_games.append((game.name, jackpot, game.prize_threshold, notify_days))
 
     if high_prized_games:
         for notifier in active_notifiers:
