@@ -7,10 +7,10 @@ The notifier runs automatically every day at midnight UTC via GitHub Actions. It
 
 ## Games
 
-| Game | Draw Days | Prize Threshold | Max Rollovers |
-|------|-----------|-----------------|---------------|
-| EuroMillions | Tuesday, Friday | £75,000,000 | — |
-| Lotto | Wednesday, Saturday | £5,000,000 | 5 |
+| Game | Draw Days | Notifying Condition |
+|------|-----------|---------------------|
+| EuroMillions | Tuesday, Friday | <ul><li>Jackpot ≥ £75,000,000</li></ul> |
+| Lotto | Wednesday, Saturday | <ul><li>Jackpot ≥ £5,000,000</li><li>Rollovers ≥ 5 (must-be-won draw)</li></ul> |
 
 ## How to Run Locally
 
