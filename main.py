@@ -29,9 +29,6 @@ def main(test=False):
         if not test and not should_notify_today(game):
             continue
         data = game.fetch_draw_data()
-        if test and game.name == "Lotto":
-            data.jackpot = 20_000_000.0
-            data.is_roll_down = True
         if data.is_high_prized(game.prize_threshold):
             high_prized_games.append((
                 f"{game.emoji} {game.name}",
