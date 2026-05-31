@@ -19,6 +19,10 @@ class DrawData:
     jackpot: float | None
     is_must_be_won: bool = False
 
+    def qualifies(self, prize_threshold: float) -> bool:
+        jackpot_qualifies = self.jackpot is not None and self.jackpot >= prize_threshold
+        return jackpot_qualifies or self.is_must_be_won
+
 
 class BaseGame(ABC):
     name: str

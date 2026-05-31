@@ -36,9 +36,7 @@ def main(test=False):
         if not test and not should_notify_today(game):
             continue
         data = game.fetch_draw_data()
-        time.sleep(1)
-        jackpot_qualifies = data.jackpot is not None and data.jackpot >= game.prize_threshold
-        if jackpot_qualifies or data.is_must_be_won:
+        if data.qualifies(game.prize_threshold):
             high_prized_games.append((
                 game.name,
                 data.jackpot,
@@ -46,6 +44,7 @@ def main(test=False):
                 game.draw_days,
                 data.is_must_be_won,
             ))
+        time.sleep(1)
 
     if high_prized_games:
         for notifier in active_notifiers:
