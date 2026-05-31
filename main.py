@@ -7,12 +7,13 @@ from games.base import Weekday
 from games.euromillions import EuroMillions
 from games.lotto import Lotto
 from notifiers.console_notifier import ConsoleNotifier
+from notifiers.telegram_notifier import TelegramNotifier
 
 
 games = [EuroMillions(), Lotto()]
 notifiers = SimpleNamespace(
     test=[ConsoleNotifier()],
-    live=[],
+    live=[TelegramNotifier()],
 )
 
 
