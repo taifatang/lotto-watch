@@ -16,7 +16,7 @@ class TelegramNotifier(BaseNotifier):
         token = os.environ["TELEGRAM_BOT_TOKEN"]
         chat_id = os.environ["TELEGRAM_CHAT_ID"]
 
-        lines = ["[Tomorrow] 🎰 Big Jackpot Alert!"]
+        lines = ["🎰 [Tomorrow] Big Jackpot Alert!"]
         for game_name, jackpot, prize_threshold, draw_days, is_roll_down in results:
             jackpot_str = f"£{round(jackpot / 1_000_000)}M" if jackpot is not None else "N/A"
             suffix = " (Must-be-won draw)" if is_roll_down else ""
