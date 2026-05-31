@@ -17,8 +17,10 @@ games = []
 notifiers = [GithubConsoleNotifier()]
 
 
-def main():
-    if not notifiers:
+def main(dry_run=False):
+    active_notifiers = [GithubConsoleNotifier()] if dry_run else notifiers
+
+    if not active_notifiers:
         print("No notifiers installed.")
         return
 
@@ -30,14 +32,17 @@ def main():
         if jackpot is not None and jackpot >= game.prize_threshold:
             high_prized_games.append((game.name, jackpot, game.prize_threshold))
 
-    
-
     if high_prized_games:
-        for notifier in notifiers:
+        for notifier in active_notifiers:
             notifier.send(high_prized_games)
     else:
         print("No games with good prizes.")
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dry-run", action="store_true")
+    args = parser.parse_args()
+    main(dry_run=args.dry_run)
