@@ -23,7 +23,7 @@ class MockNotifier:
 
 
 def fake_notifiers(notifier):
-    return SimpleNamespace(live=[notifier], dry_run=[])
+    return SimpleNamespace(live=[notifier], test=[])
 
 
 # should_notify_today — day before draw
