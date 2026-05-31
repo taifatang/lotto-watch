@@ -1,5 +1,4 @@
 from abc import ABC
-from datetime import date
 import xml.etree.ElementTree as ET
 import requests
 
@@ -11,15 +10,6 @@ class BaseGame(ABC):
     threshold: float      # pounds
 
     _headers: dict = {"User-Agent": "Mozilla/5.0 (compatible; NationalLotteryNotifier/1.0)"}
-
-    def should_notify_today(self, today: date | None = None) -> bool:
-        today = today or date.today()
-        today_weekday = today.weekday()
-        for draw_day in self.draw_days:
-            notify_day = 0 if draw_day >= 4 else draw_day + 1
-            if today_weekday == notify_day:
-                return True
-        return False
 
     def fetch_jackpot(self) -> float | None:
         try:
