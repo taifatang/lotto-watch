@@ -8,6 +8,7 @@ from main import main, should_notify_today
 
 class FakeGame:
     name = "FakeGame"
+    emoji = "🎮"
     draw_days = [2, 5]  # Wednesday=2, Saturday=5
     prize_threshold = 1_000_000.0
 
@@ -27,7 +28,7 @@ def fake_notifiers(notifier):
     return SimpleNamespace(live=[notifier], test=[])
 
 
-EXPECTED_RESULT = ("FakeGame", 2_000_000.0, 1_000_000.0, [2, 5], None)
+EXPECTED_RESULT = ("🎮 FakeGame", 2_000_000.0, 1_000_000.0, [2, 5], None)
 
 # should_notify_today — day before draw
 
@@ -112,6 +113,6 @@ def test_multiple_qualifying_games_batched():
         main()
 
     assert notifier.calls == [[
-        ("GameA", 2_000_000.0, 1_000_000.0, [2, 5], None),
-        ("GameB", 2_000_000.0, 1_000_000.0, [2, 5], None),
+        ("🎮 GameA", 2_000_000.0, 1_000_000.0, [2, 5], None),
+        ("🎮 GameB", 2_000_000.0, 1_000_000.0, [2, 5], None),
     ]]

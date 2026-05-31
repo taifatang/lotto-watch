@@ -27,6 +27,7 @@ class GameData:
 
 class BaseGame(ABC):
     name: str
+    emoji: str
     url: str
     draw_days: list[Weekday]
     prize_threshold: float  # pounds

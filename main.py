@@ -7,12 +7,13 @@ from games.base import Weekday
 from games.euromillions import EuroMillions
 from games.lotto import Lotto
 from notifiers.console_notifier import ConsoleNotifier
+from notifiers.telegram_notifier import TelegramNotifier
 
 
 games = [EuroMillions(), Lotto()]
 notifiers = SimpleNamespace(
     test=[ConsoleNotifier()],
-    live=[],
+    live=[TelegramNotifier()],
 )
 
 
@@ -30,7 +31,7 @@ def main(test=False):
         data = game.fetch_draw_data()
         if data.is_high_prized(game.prize_threshold):
             high_prized_games.append((
-                game.name,
+                f"{game.emoji} {game.name}",
                 data.jackpot,
                 game.prize_threshold,
                 game.draw_days,
