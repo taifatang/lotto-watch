@@ -25,11 +25,15 @@ def main():
         if jackpot is not None and jackpot >= game.prize_threshold:
             high_prized_games.append((game.name, jackpot, game.prize_threshold))
 
+    if not notifiers:
+        print("No notifiers installed.")
+        return
+
     if high_prized_games:
         for notifier in notifiers:
             notifier.send(high_prized_games)
     else:
-        print("No games with good prized.")
+        print("No games with good prizes.")
 
 
 if __name__ == "__main__":
