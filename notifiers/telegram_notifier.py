@@ -13,8 +13,12 @@ class TelegramNotifier(BaseNotifier):
     _api_url = "https://api.telegram.org/bot{token}/sendMessage"
 
     def send(self, results):
-        token = os.environ["TELEGRAM_BOT_TOKEN"]
-        chat_id = os.environ["TELEGRAM_CHAT_ID"]
+        token = os.environ.get("TELEGRAM_BOT_TOKEN")
+        chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+
+        if not token or not chat_id:
+            print("Telegram skipped: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set.")
+            return
 
         lines = ["🎰 [Tomorrow] Big Jackpot Alert!"]
         for game_name, jackpot, prize_threshold, draw_days, is_roll_down in results:
