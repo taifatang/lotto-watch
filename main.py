@@ -14,11 +14,12 @@ def should_notify_today(game, today: date | None = None) -> bool:
 
 
 games = []
-notifiers = [GithubConsoleNotifier()]
+live_notifiers = []
+dry_run_notifiers = [GithubConsoleNotifier()]
 
 
 def main(dry_run=False):
-    active_notifiers = [GithubConsoleNotifier()] if dry_run else notifiers
+    active_notifiers = dry_run_notifiers if dry_run else live_notifiers
 
     if not active_notifiers:
         print("No notifiers installed.")
