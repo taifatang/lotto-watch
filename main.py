@@ -9,15 +9,6 @@ from games.lotto import Lotto
 from notifiers.console_notifier import ConsoleNotifier
 
 
-def should_notify_today(game, today: date | None = None) -> bool:
-    today = today or date.today()
-    for draw_day in game.draw_days:
-        notify_day = Weekday((draw_day - 1) % 7)
-        if today.weekday() == notify_day:
-            return True
-    return False
-
-
 games = [EuroMillions(), Lotto()]
 notifiers = SimpleNamespace(
     test=[ConsoleNotifier()],
@@ -52,6 +43,15 @@ def main(test=False):
             notifier.send(high_prized_games)
     else:
         print("No games with good prizes.")
+
+
+def should_notify_today(game, today: date | None = None) -> bool:
+    today = today or date.today()
+    for draw_day in game.draw_days:
+        notify_day = Weekday((draw_day - 1) % 7)
+        if today.weekday() == notify_day:
+            return True
+    return False
 
 
 if __name__ == "__main__":
