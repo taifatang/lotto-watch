@@ -6,3 +6,6 @@ dependencies = ["requests>=2.31.0"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0.0", "requests-mock>=1.11.0", "ruff>=0.4.0"]
+
+[tool.setuptools.packages.find]
+include = ["games*", "notifiers*"]
