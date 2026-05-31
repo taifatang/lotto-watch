@@ -12,7 +12,7 @@ class FakeGame:
     prize_threshold = 1_000_000.0
 
     def fetch_draw_data(self):
-        return DrawData(jackpot=2_000_000.0, is_roll_down=False)
+        return DrawData(jackpot=2_000_000.0, is_roll_down=None)
 
 
 class MockNotifier:
@@ -27,7 +27,7 @@ def fake_notifiers(notifier):
     return SimpleNamespace(live=[notifier], test=[])
 
 
-EXPECTED_RESULT = ("FakeGame", 2_000_000.0, 1_000_000.0, [2, 5], False)
+EXPECTED_RESULT = ("FakeGame", 2_000_000.0, 1_000_000.0, [2, 5], None)
 
 # should_notify_today — day before draw
 
@@ -112,6 +112,6 @@ def test_multiple_qualifying_games_batched():
         main()
 
     assert notifier.calls == [[
-        ("GameA", 2_000_000.0, 1_000_000.0, [2, 5], False),
-        ("GameB", 2_000_000.0, 1_000_000.0, [2, 5], False),
+        ("GameA", 2_000_000.0, 1_000_000.0, [2, 5], None),
+        ("GameB", 2_000_000.0, 1_000_000.0, [2, 5], None),
     ]]

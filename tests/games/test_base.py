@@ -9,7 +9,7 @@ class FakeGame(BaseGame):
     prize_threshold = 1_000_000.0
 
     def parse(self, xml_text: str) -> DrawData:
-        return DrawData(jackpot=5_000_000.0, is_roll_down=False)
+        return DrawData(jackpot=5_000_000.0, is_roll_down=None)
 
 
 @pytest.fixture
@@ -36,7 +36,7 @@ def test_does_not_qualify_on_failed_fetch():
 def test_fetch_draw_data_calls_parse_on_success(game, requests_mock):
     requests_mock.get(game.url, text="<xml/>")
     data = game.fetch_draw_data()
-    assert data == DrawData(jackpot=5_000_000.0, is_roll_down=False)
+    assert data == DrawData(jackpot=5_000_000.0, is_roll_down=None)
 
 
 def test_fetch_draw_data_returns_empty_on_http_error(game, requests_mock):
