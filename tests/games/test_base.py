@@ -1,3 +1,4 @@
+import xml.etree.ElementTree as ET
 import pytest
 from games.base import BaseGame, DrawData, Weekday
 
@@ -7,6 +8,14 @@ class ConcreteGame(BaseGame):
     url = "https://example.com/xml"
     draw_days = [Weekday.WEDNESDAY, Weekday.SATURDAY]
     prize_threshold = 10_000_000.0
+
+    def parse(self, xml_text: str) -> DrawData:
+        root = ET.fromstring(xml_text)
+        jackpot_el = root.find(".//next-estimated-jackpot")
+        rollover_el = root.find(".//rollover-count")
+        jackpot = float(jackpot_el.text.replace(",", "")) if jackpot_el is not None and jackpot_el.text else None
+        rollover_count = int(rollover_el.text) if rollover_el is not None and rollover_el.text else None
+        return DrawData(jackpot=jackpot, rollover_count=rollover_count)
 
 
 @pytest.fixture

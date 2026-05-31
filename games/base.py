@@ -1,7 +1,6 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import IntEnum
-import xml.etree.ElementTree as ET
 import requests
 
 
@@ -39,14 +38,5 @@ class BaseGame(ABC):
             print(f"[{self.name}] fetch failed: {e}")
             return DrawData(jackpot=None, rollover_count=None)
 
-    def parse(self, xml_text: str) -> DrawData:
-        try:
-            root = ET.fromstring(xml_text)
-            jackpot_el = root.find(".//next-estimated-jackpot")
-            rollover_el = root.find(".//rollover-count")
-            jackpot = float(jackpot_el.text.replace(",", "").strip()) if jackpot_el is not None and jackpot_el.text else None
-            rollover_count = int(rollover_el.text) if rollover_el is not None and rollover_el.text else None
-            return DrawData(jackpot=jackpot, rollover_count=rollover_count)
-        except Exception as e:
-            print(f"[{self.name}] parse failed: {e}")
-            return DrawData(jackpot=None, rollover_count=None)
+    @abstractmethod
+    def parse(self, xml_text: str) -> DrawData: ...
