@@ -15,7 +15,7 @@ Runs Monday to Thursday at 5pm UTC.
 | Game | Draw Days | Average | Median | Historic Highest | Notifying Condition |
 |------|-----------|---------|--------|------------------|---------------------|
 | EuroMillions | Tuesday, Friday | £69M | £62M | £195M | <ul><li>Jackpot ≥ £75,000,000</li></ul> |
-| Lotto | Wednesday, Saturday | TBC | TBC | £66M | <ul><li>Jackpot ≥ £5,000,000</li><li>Must-be-won draw</li></ul> |
+| Lotto | Wednesday, Saturday | £5M | £5M | £66M | <ul><li>Jackpot ≥ £5,000,000</li><li>Must-be-won draw</li></ul> |
 
 *Average and median based on last 52 draws (180 days) as of 31 May 2026.*
 
