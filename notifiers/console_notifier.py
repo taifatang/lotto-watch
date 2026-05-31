@@ -1,13 +1,24 @@
+from games.base import Weekday
 from notifiers.base import BaseNotifier
 
 
 class ConsoleNotifier(BaseNotifier):
     def send(self, results):
+        rows = [
+            (
+                game_name,
+                f"£{jackpot:,.2f}",
+                f"£{prize_threshold:,.2f}",
+                ", ".join(Weekday((d - 1) % 7).name.capitalize() for d in draw_days),
+            )
+            for game_name, jackpot, prize_threshold, draw_days in results
+        ]
+
         col_widths = (
-            max(len("Game"), max(len(g) for g, _, _, _ in results)),
-            max(len("Jackpot"), max(len(f"£{j:,.2f}") for _, j, _, _ in results)),
-            max(len("Threshold"), max(len(f"£{t:,.2f}") for _, _, t, _ in results)),
-            max(len("Notify Day"), max(len(d) for _, _, _, d in results)),
+            max(len("Game"), max(len(r[0]) for r in rows)),
+            max(len("Jackpot"), max(len(r[1]) for r in rows)),
+            max(len("Threshold"), max(len(r[2]) for r in rows)),
+            max(len("Notify Day"), max(len(r[3]) for r in rows)),
         )
 
         def row(a, b, c, d, sep="│"):
@@ -28,6 +39,6 @@ class ConsoleNotifier(BaseNotifier):
         print(divider("┌", "┬", "┐"))
         print(row("Game", "Jackpot", "Threshold", "Notify Day"))
         print(divider("├", "┼", "┤"))
-        for game_name, jackpot, prize_threshold, notify_days in results:
-            print(row(game_name, f"£{jackpot:,.2f}", f"£{prize_threshold:,.2f}", notify_days))
+        for r in rows:
+            print(row(*r))
         print(divider("└", "┴", "┘"))
