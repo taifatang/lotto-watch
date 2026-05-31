@@ -12,19 +12,7 @@ from notifiers.telegram_notifier import TelegramNotifier
 
 games = [EuroMillions(), Lotto()]
 notifiers = SimpleNamespace(
-    # Prints an ASCII table to stdout — used with --test
-    # ┌──────────────┬─────────────────┬────────────────┬──────────────────┬─────────────┐
-    # │ Game         │ Jackpot         │ Threshold      │ Notify Day       │ Must Be Won │
-    # ├──────────────┼─────────────────┼────────────────┼──────────────────┼─────────────┤
-    # │ EuroMillions │ £122,000,000.00 │ £75,000,000.00 │ Monday, Thursday │ —           │
-    # │ Lotto        │ £5,013,960.00   │ £5,000,000.00  │ Tuesday, Friday  │ N           │
-    # └──────────────┴─────────────────┴────────────────┴──────────────────┴─────────────┘
     test=[ConsoleNotifier()],
-    # Sends a Telegram message to the configured channel — used on scheduled runs
-    # 🎰 High Prize Alert!
-    # • EuroMillions: £122,000,000.00
-    # • Lotto: £5,013,960.00
-    #   ⚠️ Must-be-won draw!
     live=[TelegramNotifier()],
 )
 

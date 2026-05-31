@@ -2,6 +2,13 @@ from games.base import Weekday
 from notifiers.base import BaseNotifier
 
 
+# Output format:
+# ┌──────────────┬─────────────────┬────────────────┬──────────────────┬─────────────┐
+# │ Game         │ Jackpot         │ Threshold      │ Notify Day       │ Must Be Won │
+# ├──────────────┼─────────────────┼────────────────┼──────────────────┼─────────────┤
+# │ EuroMillions │ £122,000,000.00 │ £75,000,000.00 │ Monday, Thursday │ —           │
+# │ Lotto        │ £5,013,960.00   │ £5,000,000.00  │ Tuesday, Friday  │ N           │
+# └──────────────┴─────────────────┴────────────────┴──────────────────┴─────────────┘
 class ConsoleNotifier(BaseNotifier):
     def send(self, results):
         rows = []

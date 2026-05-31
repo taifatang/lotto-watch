@@ -3,6 +3,12 @@ import requests
 
 from notifiers.base import BaseNotifier
 
+# Output format:
+# 🎰 High Prize Alert!
+# • EuroMillions: £122,000,000.00
+# • Lotto: £5,013,960.00
+#   ⚠️ Must-be-won draw!
+
 
 class TelegramNotifier(BaseNotifier):
     _api_url = "https://api.telegram.org/bot{token}/sendMessage"
