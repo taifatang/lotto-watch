@@ -12,10 +12,10 @@ Runs Monday to Thursday at 5pm UTC.
 
 ## Games
 
-| Game | Draw Days | Notifying Condition |
-|------|-----------|---------------------|
-| EuroMillions | Tuesday, Friday | <ul><li>Jackpot ≥ £75,000,000</li></ul> |
-| Lotto | Wednesday, Saturday | <ul><li>Jackpot ≥ £5,000,000</li><li>Must-be-won draw</li></ul> |
+| Game | Draw Days | Avg Jackpot (180d) | Median | Max | Notifying Condition |
+|------|-----------|-------------------|--------|-----|---------------------|
+| EuroMillions | Tuesday, Friday | £69M | £62M | £181M | <ul><li>Jackpot ≥ £75,000,000</li></ul> |
+| Lotto | Wednesday, Saturday | TBC | TBC | TBC | <ul><li>Jackpot ≥ £5,000,000</li><li>Must-be-won draw</li></ul> |
 
 ## Notifiers
 
