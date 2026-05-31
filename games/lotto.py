@@ -8,7 +8,7 @@ class Lotto(BaseGame):
     emoji = "🎱"
     url = "https://www.national-lottery.co.uk/results/lotto/draw-history/xml"
     draw_days = [Weekday.WEDNESDAY, Weekday.SATURDAY]
-    prize_threshold = 5_500_000.0
+    prize_threshold = 7_500_000.0
 
     def parse(self, xml_text: str) -> GameData:
         root = ET.fromstring(xml_text)
