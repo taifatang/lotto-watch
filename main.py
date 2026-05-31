@@ -1,6 +1,8 @@
 from datetime import date
+from types import SimpleNamespace
 
 from games.base import Weekday
+from notifiers.console_notifier import ConsoleNotifier
 
 
 def should_notify_today(game, today: date | None = None) -> bool:
@@ -13,10 +15,19 @@ def should_notify_today(game, today: date | None = None) -> bool:
 
 
 games = []
-notifiers = []
+notifiers = SimpleNamespace(
+    dry_run=[ConsoleNotifier()],
+    live=[],
+)
 
 
-def main():
+def main(dry_run=False):
+    active_notifiers = notifiers.dry_run if dry_run else notifiers.live
+
+    if not active_notifiers:
+        print("No notifiers installed.")
+        return
+
     high_prized_games = []
     for game in games:
         if not should_notify_today(game):
@@ -26,11 +37,16 @@ def main():
             high_prized_games.append((game.name, jackpot, game.prize_threshold))
 
     if high_prized_games:
-        for notifier in notifiers:
+        for notifier in active_notifiers:
             notifier.send(high_prized_games)
     else:
-        print("No games with good prized.")
+        print("No games with good prizes.")
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dry-run", action="store_true")
+    args = parser.parse_args()
+    main(dry_run=args.dry_run)

@@ -1,4 +1,5 @@
 from datetime import date
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from main import main, should_notify_today
@@ -19,6 +20,10 @@ class MockNotifier:
 
     def send(self, results):
         self.calls.append(results)
+
+
+def fake_notifiers(notifier):
+    return SimpleNamespace(live=[notifier], dry_run=[])
 
 
 # should_notify_today — day before draw
@@ -47,7 +52,7 @@ def test_does_not_notify_on_unrelated_day():
 
 def test_qualifying_game_sends_notification():
     notifier = MockNotifier()
-    with patch("main.games", [FakeGame()]), patch("main.notifiers", [notifier]), \
+    with patch("main.games", [FakeGame()]), patch("main.notifiers", fake_notifiers(notifier)), \
          patch("main.should_notify_today", return_value=True):
         main()
     assert notifier.calls == [[("FakeGame", 2_000_000.0, 1_000_000.0)]]
@@ -57,7 +62,7 @@ def test_game_below_threshold_no_notification():
     game = FakeGame()
     game.prize_threshold = 5_000_000.0
     notifier = MockNotifier()
-    with patch("main.games", [game]), patch("main.notifiers", [notifier]), \
+    with patch("main.games", [game]), patch("main.notifiers", fake_notifiers(notifier)), \
          patch("main.should_notify_today", return_value=True):
         main()
     assert notifier.calls == []
@@ -65,7 +70,7 @@ def test_game_below_threshold_no_notification():
 
 def test_not_notification_day_skips_fetch():
     notifier = MockNotifier()
-    with patch("main.games", [FakeGame()]), patch("main.notifiers", [notifier]), \
+    with patch("main.games", [FakeGame()]), patch("main.notifiers", fake_notifiers(notifier)), \
          patch("main.should_notify_today", return_value=False):
         main()
     assert notifier.calls == []
@@ -75,7 +80,7 @@ def test_failed_fetch_skips_game():
     game = FakeGame()
     game.fetch_jackpot = lambda: None
     notifier = MockNotifier()
-    with patch("main.games", [game]), patch("main.notifiers", [notifier]), \
+    with patch("main.games", [game]), patch("main.notifiers", fake_notifiers(notifier)), \
          patch("main.should_notify_today", return_value=True):
         main()
     assert notifier.calls == []
@@ -88,7 +93,7 @@ def test_multiple_qualifying_games_batched():
     game3.name, game3.prize_threshold = "GameC", 5_000_000.0  # won't qualify
 
     notifier = MockNotifier()
-    with patch("main.games", [game1, game2, game3]), patch("main.notifiers", [notifier]), \
+    with patch("main.games", [game1, game2, game3]), patch("main.notifiers", fake_notifiers(notifier)), \
          patch("main.should_notify_today", return_value=True):
         main()
 
