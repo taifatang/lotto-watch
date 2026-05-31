@@ -2,6 +2,7 @@ from datetime import date
 from types import SimpleNamespace
 from unittest.mock import patch
 
+from games.base import DrawData
 from main import main, should_notify_today
 
 
@@ -9,9 +10,10 @@ class FakeGame:
     name = "FakeGame"
     draw_days = [2, 5]  # Wednesday=2, Saturday=5
     prize_threshold = 1_000_000.0
+    max_rollovers = None
 
-    def fetch_jackpot(self):
-        return 2_000_000.0
+    def fetch_draw_data(self):
+        return DrawData(jackpot=2_000_000.0, rollover_count=1)
 
 
 class MockNotifier:
@@ -25,6 +27,8 @@ class MockNotifier:
 def fake_notifiers(notifier):
     return SimpleNamespace(live=[notifier], test=[])
 
+
+EXPECTED_RESULT = ("FakeGame", 2_000_000.0, 1_000_000.0, [2, 5], 1, None)
 
 # should_notify_today — day before draw
 
@@ -55,7 +59,7 @@ def test_qualifying_game_sends_notification():
     with patch("main.games", [FakeGame()]), patch("main.notifiers", fake_notifiers(notifier)), \
          patch("main.should_notify_today", return_value=True):
         main()
-    assert notifier.calls == [[("FakeGame", 2_000_000.0, 1_000_000.0, [2, 5])]]
+    assert notifier.calls == [[EXPECTED_RESULT]]
 
 
 def test_game_below_threshold_no_notification():
@@ -68,6 +72,17 @@ def test_game_below_threshold_no_notification():
     assert notifier.calls == []
 
 
+def test_game_qualifies_via_max_rollovers():
+    game = FakeGame()
+    game.prize_threshold = 5_000_000.0  # jackpot won't qualify
+    game.max_rollovers = 1              # but rollover_count == 1 >= 1 will qualify
+    notifier = MockNotifier()
+    with patch("main.games", [game]), patch("main.notifiers", fake_notifiers(notifier)), \
+         patch("main.should_notify_today", return_value=True):
+        main()
+    assert len(notifier.calls) == 1
+
+
 def test_not_notification_day_skips_fetch():
     notifier = MockNotifier()
     with patch("main.games", [FakeGame()]), patch("main.notifiers", fake_notifiers(notifier)), \
@@ -78,7 +93,7 @@ def test_not_notification_day_skips_fetch():
 
 def test_failed_fetch_skips_game():
     game = FakeGame()
-    game.fetch_jackpot = lambda: None
+    game.fetch_draw_data = lambda: DrawData(jackpot=None, rollover_count=None)
     notifier = MockNotifier()
     with patch("main.games", [game]), patch("main.notifiers", fake_notifiers(notifier)), \
          patch("main.should_notify_today", return_value=True):
@@ -98,6 +113,6 @@ def test_multiple_qualifying_games_batched():
         main()
 
     assert notifier.calls == [[
-        ("GameA", 2_000_000.0, 1_000_000.0, [2, 5]),
-        ("GameB", 2_000_000.0, 1_000_000.0, [2, 5]),
+        ("GameA", 2_000_000.0, 1_000_000.0, [2, 5], 1, None),
+        ("GameB", 2_000_000.0, 1_000_000.0, [2, 5], 1, None),
     ]]
