@@ -1,4 +1,5 @@
 from datetime import date
+from types import SimpleNamespace
 
 from games.base import Weekday
 from notifiers.console_notifier import ConsoleNotifier
@@ -14,16 +15,14 @@ def should_notify_today(game, today: date | None = None) -> bool:
 
 
 games = []
-notifiers = {
-    # dry run
-    True: [ConsoleNotifier()],
-    # live
-    False: [],
-}
+notifiers = SimpleNamespace(
+    dry_run=[ConsoleNotifier()],
+    live=[],
+)
 
 
 def main(dry_run=False):
-    active_notifiers = notifiers[dry_run]
+    active_notifiers = notifiers.dry_run if dry_run else notifiers.live
 
     if not active_notifiers:
         print("No notifiers installed.")
