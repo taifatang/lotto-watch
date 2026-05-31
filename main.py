@@ -43,7 +43,7 @@ def main(test=False):
                 data.jackpot,
                 game.prize_threshold,
                 game.draw_days,
-                data.is_must_be_won,
+                data.is_roll_down,
             ))
         time.sleep(1)
 

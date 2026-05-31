@@ -5,10 +5,10 @@ from notifiers.base import BaseNotifier
 class ConsoleNotifier(BaseNotifier):
     def send(self, results):
         rows = []
-        for game_name, jackpot, prize_threshold, draw_days, is_must_be_won in results:
+        for game_name, jackpot, prize_threshold, draw_days, is_roll_down in results:
             notify_day = ", ".join(Weekday((d - 1) % 7).name.capitalize() for d in draw_days)
             jackpot_str = f"£{jackpot:,.2f}" if jackpot is not None else "N/A"
-            must_be_won_str = "Yes" if is_must_be_won else "—"
+            must_be_won_str = "Yes" if is_roll_down else "—"
             rows.append((game_name, jackpot_str, f"£{prize_threshold:,.2f}", notify_day, must_be_won_str))
 
         col_widths = (

@@ -12,7 +12,7 @@ class FakeGame:
     prize_threshold = 1_000_000.0
 
     def fetch_draw_data(self):
-        return DrawData(jackpot=2_000_000.0, is_must_be_won=False)
+        return DrawData(jackpot=2_000_000.0, is_roll_down=False)
 
 
 class MockNotifier:
@@ -74,7 +74,7 @@ def test_game_below_threshold_no_notification():
 def test_game_qualifies_via_must_be_won():
     game = FakeGame()
     game.prize_threshold = 5_000_000.0  # jackpot won't qualify
-    game.fetch_draw_data = lambda: DrawData(jackpot=2_000_000.0, is_must_be_won=True)
+    game.fetch_draw_data = lambda: DrawData(jackpot=2_000_000.0, is_roll_down=True)
     notifier = MockNotifier()
     with patch("main.games", [game]), patch("main.notifiers", fake_notifiers(notifier)), \
          patch("main.should_notify_today", return_value=True):

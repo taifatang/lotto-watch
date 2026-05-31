@@ -17,11 +17,11 @@ class Weekday(IntEnum):
 @dataclass
 class DrawData:
     jackpot: float | None
-    is_must_be_won: bool = False
+    is_roll_down: bool = False
 
     def qualifies(self, prize_threshold: float) -> bool:
         jackpot_qualifies = self.jackpot is not None and self.jackpot >= prize_threshold
-        return jackpot_qualifies or self.is_must_be_won
+        return jackpot_qualifies or self.is_roll_down
 
 
 class BaseGame(ABC):
