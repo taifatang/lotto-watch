@@ -12,18 +12,11 @@ def should_notify_today(game, today: date | None = None) -> bool:
     return False
 
 
-def main(games=None, notifiers=None):
-    if games is None:
-        from games.lotto import Lotto
-        from games.euromillions import EuroMillions
-        from games.set_for_life import SetForLife
-        from games.thunderball import Thunderball
-        games = [Lotto(), EuroMillions(), SetForLife(), Thunderball()]
+games = []
+notifiers = []
 
-    if notifiers is None:
-        from notifiers.telegram import TelegramNotifier
-        notifiers = [TelegramNotifier()]
 
+def main():
     qualifying = []
     for game in games:
         if not should_notify_today(game):
