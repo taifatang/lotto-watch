@@ -8,7 +8,7 @@ on:
       dry_run:
         description: 'Dry run — use console notifier only'
         type: boolean
-        default: false
+        default: true
 
 jobs:
   notify:
