@@ -8,7 +8,7 @@ Join the Telegram channel to receive high jackpot notifications: https://t.me/lo
 
 ## Schedule
 
-Runs Monday to Thursday at 5pm UTC.
+Runs Monday to Friday at 5pm UTC.
 
 ## Games
 
