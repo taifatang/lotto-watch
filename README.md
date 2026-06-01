@@ -8,7 +8,7 @@ Join the Telegram channel to receive high jackpot notifications: https://t.me/lo
 
 ## Schedule
 
-Runs Monday to Friday at 5pm UTC.
+Runs Monday to Friday at 5pm (Europe/London), triggered via [cron-job.org](https://cron-job.org) for reliable scheduling (GitHub Actions cron is best-effort and can be delayed by hours).
 
 ## Games
 
